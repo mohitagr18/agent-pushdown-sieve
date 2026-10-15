@@ -270,3 +270,5 @@ Data-plane speedup @3M: ~45x; end-to-end: 13.0x (single_01), 48.2x (single_06), 
 - BIRD fetch fell back to Spider (HF xet disconnects); Track 1 therefore covers 3 Spider schemas rather than 100 distinct schemas.
 - Track 1 healing accuracy 57% reflects short-identifier fail-closed behavior on toy schemas, not a resolver defect — 10/10 healed on the production TLC schema.
 - `to_arrow_table()` kept in place of deprecated `fetch_arrow_table()` in baselines (carried over).
+
+**History note (2026-10-15):** git history rewritten with git-filter-repo to strip blobs >50MB (the 415MB/144MB data tiers) — GitHub rejects files >100MB. Content identical; old hashes (e.g. 68ee1ba) superseded. Full original history backed up locally.
