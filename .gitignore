@@ -4,3 +4,4 @@ __pycache__/
 .pytest_cache/
 data/_raw_*.parquet
 results/_bench_run.log
+data/trips_*.parquet
