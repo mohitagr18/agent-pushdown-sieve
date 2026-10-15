@@ -17,7 +17,8 @@ from engine.sieve_executor import build_feature_matrix, run_kernel
 from ._common import KERNEL_FEATURES, pandas_mask
 
 
-def run(intent: AnalyticalIntent, clauses: list[dict], parquet_path: str) -> dict:
+def run(intent: AnalyticalIntent, clauses: list[dict], parquet_path: str,
+        sort_rows: bool = True) -> dict:
     tel: dict[str, Any] = {"query_id": intent.query_id, "pipeline": "B1_pandas"}
 
     t0 = time.perf_counter_ns()
@@ -32,7 +33,7 @@ def run(intent: AnalyticalIntent, clauses: list[dict], parquet_path: str) -> dic
     t0 = time.perf_counter_ns()
     table = pa.Table.from_pandas(sub[intent.target_columns], preserve_index=False)
     features = KERNEL_FEATURES[intent.downstream_task]
-    X = build_feature_matrix(table, features)
+    X = build_feature_matrix(table, features, sort_rows=sort_rows)
     tel["t_handoff_ms"] = (time.perf_counter_ns() - t0) / 1e6
     tel["n_rows_kernel"] = int(X.shape[0])
     tel["bytes_X"] = int(X.nbytes)

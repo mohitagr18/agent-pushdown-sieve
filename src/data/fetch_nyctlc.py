@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
-"""Phase 1 — Track 2 dataset acquisition (Systems Scalability).
+"""Phase 1 — Track 2 dataset acquisition (Systems Scalability) — Phase 7 revision.
 
-Streams the official NYC TLC Yellow Taxi Parquet (2024-01) and materializes a
-clean, deterministic 1,000,000-row dataset plus exact 10k/100k subsets.
+Streams the official NYC TLC Yellow Taxi Parquet (2024-01) and materializes
+deterministic tiers: 10k / 100k / 1M / ~3M rows.
 
-Computed columns:
-  - trip_duration_minutes: float, from tpep_pickup_datetime / tpep_dropoff_datetime
-  - borough: deterministic PULocationID -> borough category mapping
-Keeps all 19 original columns (21 columns total).
+Phase 7 changes vs the original:
+  * 6 wide enterprise string/metadata columns are added
+    (trip_uuid, driver_license_hash, dispatch_hub_code, shift_audit_signature,
+    routing_metadata_json, dispatcher_notes — ~250 bytes of string payload per
+    row), so the 1M-row file is a realistic ~250-300 MB enterprise payload.
+    This punishes monolithic pd.read_parquet() (SELECT *) while column
+    projection pushdown skips the wide columns entirely.
+  * A ~3M-row tier (trips_3m.parquet) is materialized from the full cleaned
+    source (2,964,624 raw rows).
+All string columns are deterministic SQL functions of existing columns
+(md5/sha256/lpad) — no randomness, fully reproducible.
 """
 from __future__ import annotations
 
@@ -20,8 +27,7 @@ NYC_TLC_URL = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 DATA_DIR = os.path.join(REPO_ROOT, "data")
 
-# Deterministic PULocationID -> borough mapping with realistic yellow-cab mix:
-# Manhattan ~60%, Queens ~15%, Brooklyn ~12%, Bronx ~7%, Staten Island ~6%
+# Deterministic PULocationID -> borough mapping (unchanged from Phase 1).
 BOROUGH_CASE = """
 CASE (PULocationID % 100)
   WHEN  0 THEN 'Manhattan' WHEN  1 THEN 'Manhattan' WHEN  2 THEN 'Manhattan'
@@ -61,33 +67,45 @@ CASE (PULocationID % 100)
 END
 """
 
+# Phase 7: wide enterprise string/metadata payload (~250 bytes/row), all
+# deterministic SQL functions of existing columns.
+WIDE_COLUMNS = """
+md5(CAST(VendorID AS VARCHAR) || '|' || CAST(tpep_pickup_datetime AS VARCHAR)
+    || '|' || CAST(PULocationID AS VARCHAR)) AS trip_uuid,
+sha256('drv' || CAST(((PULocationID * 7919 + DOLocationID * 104729) % 1000000) AS VARCHAR))
+    AS driver_license_hash,
+'HUB-' || lpad(CAST(((PULocationID * 13) % 100000) AS VARCHAR), 5, '0')
+    AS dispatch_hub_code,
+substr(sha256(CAST(tpep_dropoff_datetime AS VARCHAR) || 'audit'), 1, 44)
+    AS shift_audit_signature,
+'{"route":"R' || CAST(((PULocationID % 900) + 100) AS VARCHAR)
+    || '","hub":"HUB-' || lpad(CAST(((DOLocationID * 13) % 100000) AS VARCHAR), 5, '0')
+    || '","prio":' || CAST(((passenger_count % 5) + 1) AS VARCHAR) || '}'
+    AS routing_metadata_json,
+'Dispatch verified; trip logged under hub manifest #'
+    || CAST(((PULocationID * 31 + DOLocationID) % 1000000) AS VARCHAR)
+    || ' ref ' || sha256(CAST(tpep_pickup_datetime AS VARCHAR) || 'note')
+    AS dispatcher_notes
+"""
+
 
 def main() -> None:
     os.makedirs(DATA_DIR, exist_ok=True)
     con = duckdb.connect()
 
-    # Download via curl (handles the egress proxy); DuckDB processes locally.
     import subprocess
 
     raw_path = os.path.join(DATA_DIR, "_raw_yellow_2024-01.parquet")
     if not os.path.exists(raw_path):
         print("[fetch_nyctlc] downloading source parquet via curl ...", flush=True)
-        subprocess.run(
-            ["curl", "-sSL", "-o", raw_path, NYC_TLC_URL],
-            check=True,
-        )
+        subprocess.run(["curl", "-sSL", "-o", raw_path, NYC_TLC_URL], check=True)
     print(f"[fetch_nyctlc] source at {raw_path}", flush=True)
 
-    con.execute(
-        f"""
-        CREATE OR REPLACE TABLE raw AS
-        SELECT * FROM read_parquet('{raw_path}');
-        """
-    )
+    con.execute(f"CREATE OR REPLACE TABLE raw AS SELECT * FROM read_parquet('{raw_path}');")
     n_raw = con.execute("SELECT COUNT(*) FROM raw").fetchone()[0]
     print(f"[fetch_nyctlc] raw rows: {n_raw:,}", flush=True)
 
-    # Clean + enrich, then take a deterministic 1M-row head ordered by pickup time.
+    # Clean + enrich with wide enterprise columns; deterministic order.
     con.execute(
         f"""
         CREATE OR REPLACE TABLE clean AS
@@ -96,7 +114,8 @@ def main() -> None:
             *,
             (epoch(tpep_dropoff_datetime) - epoch(tpep_pickup_datetime)) / 60.0
               AS trip_duration_minutes,
-            {BOROUGH_CASE} AS borough
+            {BOROUGH_CASE} AS borough,
+            {WIDE_COLUMNS}
           FROM raw
         )
         SELECT * FROM base
@@ -105,41 +124,45 @@ def main() -> None:
           AND trip_distance >= 0
           AND total_amount >= 0
           AND fare_amount >= 0
-        ORDER BY tpep_pickup_datetime, VendorID, PULocationID
-        LIMIT 1000000;
+        ORDER BY tpep_pickup_datetime, VendorID, PULocationID;
         """
     )
     n_clean = con.execute("SELECT COUNT(*) FROM clean").fetchone()[0]
     print(f"[fetch_nyctlc] clean deterministic rows: {n_clean:,}", flush=True)
-    assert n_clean == 1_000_000, f"expected 1,000,000 rows, got {n_clean}"
 
-    out_1m = os.path.join(DATA_DIR, "trips_1m.parquet")
-    out_100k = os.path.join(DATA_DIR, "trips_100k.parquet")
-    out_10k = os.path.join(DATA_DIR, "trips_10k.parquet")
-
-    con.execute(f"COPY clean TO '{out_1m}' (FORMAT PARQUET);")
-    con.execute(
-        f"COPY (SELECT * FROM clean LIMIT 100000) TO '{out_100k}' (FORMAT PARQUET);"
-    )
-    con.execute(
-        f"COPY (SELECT * FROM clean LIMIT 10000) TO '{out_10k}' (FORMAT PARQUET);"
-    )
-
-    for path, expect in ((out_1m, 1_000_000), (out_100k, 100_000), (out_10k, 10_000)):
+    tiers = [
+        ("trips_3m.parquet", None),          # full cleaned set (~2.9M)
+        ("trips_1m.parquet", 1_000_000),
+        ("trips_100k.parquet", 100_000),
+        ("trips_10k.parquet", 10_000),
+    ]
+    for fname, limit in tiers:
+        path = os.path.join(DATA_DIR, fname)
+        q = "SELECT * FROM clean" + (f" LIMIT {limit}" if limit else "")
+        con.execute(f"COPY ({q}) TO '{path}' (FORMAT PARQUET);")
         got = con.execute(f"SELECT COUNT(*) FROM read_parquet('{path}')").fetchone()[0]
         size = os.path.getsize(path)
+        expect = limit or n_clean
         assert got == expect, f"{path}: expected {expect}, got {got}"
         print(f"[fetch_nyctlc] wrote {path}: {got:,} rows, {size/1e6:.1f} MB", flush=True)
 
+    out_1m = os.path.join(DATA_DIR, "trips_1m.parquet")
     schema = con.execute(f"DESCRIBE SELECT * FROM read_parquet('{out_1m}')").fetchall()
-    print("[fetch_nyctlc] schema (column, type):")
+    print(f"[fetch_nyctlc] schema ({len(schema)} columns):")
     for col, typ, *_ in schema:
         print(f"  {col}: {typ}")
-    print("[fetch_nyctlc] borough distribution:")
+    print("[fetch_nyctlc] borough distribution (1M):")
     for b, c in con.execute(
         f"SELECT borough, COUNT(*) FROM read_parquet('{out_1m}') GROUP BY borough ORDER BY COUNT(*) DESC"
     ).fetchall():
         print(f"  {b}: {c:,} ({c/1e6:.1%})")
+    avg_wide = con.execute(
+        f"""SELECT AVG(length(trip_uuid) + length(driver_license_hash)
+              + length(dispatch_hub_code) + length(shift_audit_signature)
+              + length(routing_metadata_json) + length(dispatcher_notes))
+            FROM read_parquet('{out_1m}')"""
+    ).fetchone()[0]
+    print(f"[fetch_nyctlc] avg wide-string payload: {avg_wide:.0f} bytes/row")
 
 
 if __name__ == "__main__":

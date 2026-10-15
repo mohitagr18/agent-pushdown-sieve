@@ -54,7 +54,7 @@ def test_parity_pandas_polars_proposed(resolver: SchemaResolver, parquet_1m: str
         intent_r, clauses = resolve_trace(trace, resolver)
         ref = pandas_baseline.run(intent_r, clauses, parquet_1m)["result"].parity_vector
         b3 = polars_baseline.run(intent_r, clauses, parquet_1m)["result"].parity_vector
-        ex = SieveExecutor(resolver)
+        ex = SieveExecutor(resolver, canonical_sort=True)
         pr = ex.execute(
             AnalyticalIntent(
                 query_id=intent_r.query_id,
@@ -67,3 +67,30 @@ def test_parity_pandas_polars_proposed(resolver: SchemaResolver, parquet_1m: str
         for name, vec in (("polars", b3), ("proposed", pr)):
             delta = max(abs(a - b) for a, b in zip(ref, vec))
             assert delta <= EPS, f"{tid}/{name}: parity delta {delta:.2e} > {EPS}"
+
+
+def test_canonical_sort_flag_production_vs_parity(resolver: SchemaResolver):
+    """canonical_sort=False (default) is the production latency path;
+    canonical_sort=True locks row order for parity assertions."""
+    intent = AnalyticalIntent(
+        query_id="cs_test",
+        target_columns=["trip_distance", "fare_amount", "total_amount"],
+        filter_predicates=[],
+        downstream_task="isolation_forest",
+    )
+    prod = SieveExecutor(resolver)  # default False
+    assert prod.canonical_sort is False
+    out_prod = prod.execute(intent)
+    locked = SieveExecutor(resolver, canonical_sort=True)
+    out_locked = locked.execute(intent)
+    for out in (out_prod, out_locked):
+        tel = out["telemetry"]
+        assert tel["t_handoff_1d_ms"] >= 0
+        assert tel["t_handoff_2d_ms"] >= 0
+        assert tel["n_rows_kernel"] > 0
+    # Same rows in, same kernel out (isolation forest counts are order-stable
+    # here at this scale; the flag only changes row order, not membership).
+    assert (
+        out_prod["telemetry"]["n_rows_kernel"]
+        == out_locked["telemetry"]["n_rows_kernel"]
+    )

@@ -1,0 +1,37 @@
+{
+  "n_schemas": 3,
+  "n_alias_probes": 58,
+  "n_typo_probes": 66,
+  "n_hallucinations": 15,
+  "healing_accuracy": 0.5725806451612904,
+  "alias_accuracy": 0.603448275862069,
+  "typo_accuracy": 0.5454545454545454,
+  "false_positive_rate": 0.0,
+  "mean_latency_ms": 1.4599059838709678,
+  "per_db": [
+    {
+      "db_id": "car_1",
+      "n_columns_tested": 10,
+      "alias_acc": 0.4737,
+      "typo_acc": 0.4286,
+      "hallucinations": 5,
+      "hallucination_fp": 0
+    },
+    {
+      "db_id": "concert_singer",
+      "n_columns_tested": 10,
+      "alias_acc": 0.75,
+      "typo_acc": 0.7619,
+      "hallucinations": 5,
+      "hallucination_fp": 0
+    },
+    {
+      "db_id": "pets_1",
+      "n_columns_tested": 10,
+      "alias_acc": 0.5789,
+      "typo_acc": 0.4583,
+      "hallucinations": 5,
+      "hallucination_fp": 0
+    }
+  ]
+}

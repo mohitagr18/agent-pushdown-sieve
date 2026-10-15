@@ -14,7 +14,7 @@
         {
           "column": "trip_distance",
           "op": ">",
-          "value": 20.437930284104954
+          "value": 20.43777300964505
         }
       ],
       "downstream_task": "isolation_forest",
@@ -34,13 +34,13 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 69.9955606684455
+          "value": 69.30530542873969
         }
       ],
       "downstream_task": "isolation_forest",
       "session_id": null,
       "parent_turn_id": null,
-      "expected_selectivity": 0.0535
+      "expected_selectivity": 0.0539
     },
     {
       "query_id": "single_03",
@@ -54,7 +54,7 @@
         {
           "column": "total_amount",
           "op": ">",
-          "value": 33.462169188139725
+          "value": 33.4654385851043
         }
       ],
       "downstream_task": "isolation_forest",
@@ -80,7 +80,7 @@
         {
           "column": "trip_distance",
           "op": ">",
-          "value": 9.176901346350142
+          "value": 9.176642988097395
         }
       ],
       "downstream_task": "isolation_forest",
@@ -106,7 +106,7 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 20.986939284810706
+          "value": 20.9407820686309
         }
       ],
       "downstream_task": "isolation_forest",
@@ -126,7 +126,7 @@
         {
           "column": "trip_distance",
           "op": ">",
-          "value": 20.437930284104954
+          "value": 20.43777300964505
         }
       ],
       "downstream_task": "linear_regression",
@@ -146,13 +146,13 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 69.9955606684455
+          "value": 69.30530542873969
         }
       ],
       "downstream_task": "linear_regression",
       "session_id": null,
       "parent_turn_id": null,
-      "expected_selectivity": 0.0535
+      "expected_selectivity": 0.0539
     },
     {
       "query_id": "single_08",
@@ -165,7 +165,7 @@
         {
           "column": "total_amount",
           "op": ">",
-          "value": 33.462169188139725
+          "value": 33.4654385851043
         }
       ],
       "downstream_task": "linear_regression",
@@ -191,7 +191,7 @@
         {
           "column": "trip_distance",
           "op": ">",
-          "value": 9.176901346350142
+          "value": 9.176642988097395
         }
       ],
       "downstream_task": "linear_regression",
@@ -217,7 +217,7 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 20.986939284810706
+          "value": 20.9407820686309
         }
       ],
       "downstream_task": "linear_regression",
@@ -237,7 +237,7 @@
         {
           "column": "trip_distance",
           "op": ">",
-          "value": 20.437930284104954
+          "value": 20.43777300964505
         }
       ],
       "downstream_task": "kmeans_clustering",
@@ -258,13 +258,13 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 69.9955606684455
+          "value": 69.30530542873969
         }
       ],
       "downstream_task": "kmeans_clustering",
       "session_id": null,
       "parent_turn_id": null,
-      "expected_selectivity": 0.0535
+      "expected_selectivity": 0.0539
     },
     {
       "query_id": "single_13",
@@ -278,7 +278,7 @@
         {
           "column": "total_amount",
           "op": ">",
-          "value": 33.462169188139725
+          "value": 33.4654385851043
         }
       ],
       "downstream_task": "kmeans_clustering",
@@ -304,7 +304,7 @@
         {
           "column": "trip_distance",
           "op": ">",
-          "value": 9.176901346350142
+          "value": 9.176642988097395
         }
       ],
       "downstream_task": "kmeans_clustering",
@@ -331,7 +331,7 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 20.986939284810706
+          "value": 20.9407820686309
         }
       ],
       "downstream_task": "kmeans_clustering",
@@ -520,17 +520,13 @@
         {
           "column": "borough",
           "op": "=",
-          "value": "Manhattan"
-        },
-        {
-          "column": "trip_distance",
-          "op": ">",
-          "value": 1.0
+          "value": "Brooklyn"
         }
       ],
       "downstream_task": "linear_regression",
       "session_id": "session_01",
-      "parent_turn_id": null
+      "parent_turn_id": null,
+      "expected_selectivity": 0.03981
     },
     {
       "query_id": "session_01_t2",
@@ -547,12 +543,13 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 25.0
+          "value": 22.897176602435557
         }
       ],
       "downstream_task": "isolation_forest",
       "session_id": "session_01",
-      "parent_turn_id": "session_01_t1"
+      "parent_turn_id": "session_01_t1",
+      "expected_selectivity": 0.00991
     },
     {
       "query_id": "session_01_t3",
@@ -569,12 +566,13 @@
         {
           "column": "tip_amount",
           "op": ">",
-          "value": 0.0
+          "value": 7.175898248798152
         }
       ],
       "downstream_task": "kmeans_clustering",
       "session_id": "session_01",
-      "parent_turn_id": "session_01_t2"
+      "parent_turn_id": "session_01_t2",
+      "expected_selectivity": 0.0025
     },
     {
       "query_id": "session_02_t1",
@@ -591,17 +589,13 @@
         {
           "column": "borough",
           "op": "=",
-          "value": "Queens"
-        },
-        {
-          "column": "trip_distance",
-          "op": ">",
-          "value": 1.5
+          "value": "Bronx"
         }
       ],
       "downstream_task": "linear_regression",
       "session_id": "session_02",
-      "parent_turn_id": null
+      "parent_turn_id": null,
+      "expected_selectivity": 0.02402
     },
     {
       "query_id": "session_02_t2",
@@ -618,12 +612,13 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 30.0
+          "value": 16.228992390393458
         }
       ],
       "downstream_task": "isolation_forest",
       "session_id": "session_02",
-      "parent_turn_id": "session_02_t1"
+      "parent_turn_id": "session_02_t1",
+      "expected_selectivity": 0.01019
     },
     {
       "query_id": "session_02_t3",
@@ -640,12 +635,13 @@
         {
           "column": "tip_amount",
           "op": ">",
-          "value": 0.0
+          "value": 6.2241649147474405
         }
       ],
       "downstream_task": "kmeans_clustering",
       "session_id": "session_02",
-      "parent_turn_id": "session_02_t2"
+      "parent_turn_id": "session_02_t2",
+      "expected_selectivity": 0.00248
     },
     {
       "query_id": "session_03_t1",
@@ -662,17 +658,13 @@
         {
           "column": "borough",
           "op": "=",
-          "value": "Brooklyn"
-        },
-        {
-          "column": "trip_distance",
-          "op": ">",
-          "value": 1.0
+          "value": "Queens"
         }
       ],
       "downstream_task": "linear_regression",
       "session_id": "session_03",
-      "parent_turn_id": null
+      "parent_turn_id": null,
+      "expected_selectivity": 0.04007
     },
     {
       "query_id": "session_03_t2",
@@ -689,12 +681,13 @@
         {
           "column": "fare_amount",
           "op": ">",
-          "value": 20.0
+          "value": 43.73151945945257
         }
       ],
       "downstream_task": "isolation_forest",
       "session_id": "session_03",
-      "parent_turn_id": "session_03_t1"
+      "parent_turn_id": "session_03_t1",
+      "expected_selectivity": 0.00989
     },
     {
       "query_id": "session_03_t3",
@@ -711,12 +704,13 @@
         {
           "column": "tip_amount",
           "op": ">",
-          "value": 0.0
+          "value": 15.92216798102727
         }
       ],
       "downstream_task": "kmeans_clustering",
       "session_id": "session_03",
-      "parent_turn_id": "session_03_t2"
+      "parent_turn_id": "session_03_t2",
+      "expected_selectivity": 0.0025
     },
     {
       "query_id": "session_04_t1",
@@ -733,17 +727,13 @@
         {
           "column": "borough",
           "op": "=",
-          "value": "Manhattan"
-        },
-        {
-          "column": "trip_distance",
-          "op": ">",
-          "value": 2.0
+          "value": "Brooklyn"
         }
       ],
       "downstream_task": "linear_regression",
       "session_id": "session_04",
-      "parent_turn_id": null
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0394
     },
     {
       "query_id": "session_04_t2",
@@ -758,14 +748,15 @@
       ],
       "filter_predicates": [
         {
-          "column": "fare_amount",
+          "column": "tip_amount",
           "op": ">",
-          "value": 35.0
+          "value": 4.873175945908633
         }
       ],
       "downstream_task": "isolation_forest",
       "session_id": "session_04",
-      "parent_turn_id": "session_04_t1"
+      "parent_turn_id": "session_04_t1",
+      "expected_selectivity": 0.01
     },
     {
       "query_id": "session_04_t3",
@@ -780,14 +771,15 @@
       ],
       "filter_predicates": [
         {
-          "column": "tip_amount",
+          "column": "total_amount",
           "op": ">",
-          "value": 0.0
+          "value": 43.342813375034254
         }
       ],
       "downstream_task": "kmeans_clustering",
       "session_id": "session_04",
-      "parent_turn_id": "session_04_t2"
+      "parent_turn_id": "session_04_t2",
+      "expected_selectivity": 0.00249
     },
     {
       "query_id": "session_05_t1",
@@ -805,16 +797,12 @@
           "column": "borough",
           "op": "=",
           "value": "Queens"
-        },
-        {
-          "column": "trip_distance",
-          "op": ">",
-          "value": 1.0
         }
       ],
       "downstream_task": "linear_regression",
       "session_id": "session_05",
-      "parent_turn_id": null
+      "parent_turn_id": null,
+      "expected_selectivity": 0.04011
     },
     {
       "query_id": "session_05_t2",
@@ -829,14 +817,15 @@
       ],
       "filter_predicates": [
         {
-          "column": "fare_amount",
+          "column": "trip_distance",
           "op": ">",
-          "value": 25.0
+          "value": 8.171185153394852
         }
       ],
       "downstream_task": "isolation_forest",
       "session_id": "session_05",
-      "parent_turn_id": "session_05_t1"
+      "parent_turn_id": "session_05_t1",
+      "expected_selectivity": 0.00999
     },
     {
       "query_id": "session_05_t3",
@@ -851,14 +840,15 @@
       ],
       "filter_predicates": [
         {
-          "column": "tip_amount",
+          "column": "fare_amount",
           "op": ">",
-          "value": 0.0
+          "value": 70.0
         }
       ],
       "downstream_task": "kmeans_clustering",
       "session_id": "session_05",
-      "parent_turn_id": "session_05_t2"
+      "parent_turn_id": "session_05_t2",
+      "expected_selectivity": 0.00102
     }
   ]
 }

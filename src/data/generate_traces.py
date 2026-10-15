@@ -155,59 +155,77 @@ def main() -> int:
         )
 
     # ---- 15 multi-turn traces (5 sessions x 3 turns) -------------------------
+    # Phase 7 regime: Turn 1 -> 2-8% cohort, Turn 2 -> 0.5-2% sub-cohort,
+    # Turn 3 -> 0.1-0.5% cohort (cumulative). Thresholds are solved from real
+    # quantiles so selectivities land in-band deterministically.
+    def cohort_threshold(cohort_where: str, col: str, target_cum: float,
+                         cohort_sel: float) -> float:
+        """Quantile threshold on `col` within the cohort giving target_cum."""
+        frac = 1.0 - target_cum / cohort_sel
+        assert 0.0 < frac < 1.0, f"infeasible target {target_cum} in cohort {cohort_sel}"
+        return float(
+            con.execute(
+                f"SELECT approx_quantile({col}, {frac}) FROM trips WHERE {cohort_where}"
+            ).fetchone()[0]
+        )
+
     base6 = ["trip_distance", "trip_duration_minutes", "fare_amount",
              "tip_amount", "total_amount", "borough"]
-    session_params = [
-        ("Manhattan", 1.0, 25.0),
-        ("Queens", 1.5, 30.0),
-        ("Brooklyn", 1.0, 20.0),
-        ("Manhattan", 2.0, 35.0),
-        ("Queens", 1.0, 25.0),
+    # (borough, T1 drill col, T2 drill col, T3 drill col)
+    session_designs = [
+        ("Brooklyn", "trip_distance", "fare_amount", "tip_amount"),
+        ("Bronx", "trip_distance", "fare_amount", "tip_amount"),
+        ("Queens", "trip_distance", "fare_amount", "tip_amount"),
+        ("Brooklyn", "fare_amount", "tip_amount", "total_amount"),
+        ("Queens", "tip_amount", "trip_distance", "fare_amount"),
     ]
-    for s, (boro, d1, f2) in enumerate(session_params, start=1):
+    turn_targets = [0.04, 0.01, 0.0025]          # cumulative selectivity targets
+    turn_bands = [(0.02, 0.08), (0.005, 0.02), (0.001, 0.005)]
+    turn_kernels = ["linear_regression", "isolation_forest", "kmeans_clustering"]
+
+    for s, (boro, c1, c2, c3) in enumerate(session_designs, start=1):
         sid = f"session_{s:02d}"
-        t1 = f"{sid}_t1"
-        traces.append(
-            {
-                "query_id": t1,
-                "trace_type": "multiturn",
-                "target_columns": base6,
-                "filter_predicates": [
-                    {"column": "borough", "op": "=", "value": boro},
-                    {"column": "trip_distance", "op": ">", "value": d1},
-                ],
-                "downstream_task": "linear_regression",
-                "session_id": sid,
-                "parent_turn_id": None,
-            }
-        )
-        t2 = f"{sid}_t2"
-        traces.append(
-            {
-                "query_id": t2,
-                "trace_type": "multiturn",
-                "target_columns": base6,
-                "filter_predicates": [
-                    {"column": "fare_amount", "op": ">", "value": f2},
-                ],
-                "downstream_task": "isolation_forest",
-                "session_id": sid,
-                "parent_turn_id": t1,
-            }
-        )
-        traces.append(
-            {
-                "query_id": t2.replace("_t2", "_t3"),
-                "trace_type": "multiturn",
-                "target_columns": base6,
-                "filter_predicates": [
-                    {"column": "tip_amount", "op": ">", "value": 0.0},
-                ],
-                "downstream_task": "kmeans_clustering",
-                "session_id": sid,
-                "parent_turn_id": t2,
-            }
-        )
+        where_parts = [f"borough = '{boro}'"]
+        cohort_sel = selectivity(con, "trips", where_parts[0])
+        parent = None
+        for ti, (col, target, band, kernel) in enumerate(
+            zip((c1, c2, c3), turn_targets, turn_bands, turn_kernels)
+        ):
+            tname = f"{sid}_t{ti + 1}"
+            if ti == 0 and cohort_sel < target:
+                # Small borough (e.g. Bronx 2.4%): borough alone is in-band.
+                thresh = None
+            else:
+                thresh = cohort_threshold(
+                    " AND ".join(where_parts), col, target, cohort_sel
+                )
+                where_parts.append(f"{col} > {thresh}")
+            cum_where = " AND ".join(where_parts)
+            cohort_sel = selectivity(con, "trips", cum_where)
+            lo, hi = band
+            assert lo <= cohort_sel <= hi, (
+                f"{tname}: selectivity {cohort_sel:.4%} outside band "
+                f"{lo:.1%}-{hi:.1%} (where: {cum_where})"
+            )
+            own_preds = (
+                [{"column": "borough", "op": "=", "value": boro}]
+                if ti == 0
+                else [{"column": col, "op": ">", "value": thresh}]
+            )
+            traces.append(
+                {
+                    "query_id": tname,
+                    "trace_type": "multiturn",
+                    "target_columns": base6,
+                    "filter_predicates": own_preds,
+                    "downstream_task": kernel,
+                    "session_id": sid,
+                    "parent_turn_id": parent,
+                    "expected_selectivity": round(cohort_sel, 5),
+                }
+            )
+            print(f"[generate_traces] {tname}: {cum_where} -> {cohort_sel:.3%}")
+            parent = tname
 
     payload = {
         "dataset": "data/trips_1m.parquet",

@@ -86,8 +86,8 @@ def test_img_child_faster_than_base_rescan(resolver: SchemaResolver, parquet_1m:
     that total T_tool is also faster.
     """
     img = IntermediateMaterializationGraph()
-    ex_img = SieveExecutor(resolver, img=img)
-    ex_base = SieveExecutor(resolver, img=None)
+    ex_img = SieveExecutor(resolver, img=img, canonical_sort=True)
+    ex_base = SieveExecutor(resolver, img=None, canonical_sort=True)
 
     t1 = _turn("t1", [("borough", "=", "Staten Island"), ("trip_distance", ">", 1.0)],
                "linear_regression")

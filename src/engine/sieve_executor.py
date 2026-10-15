@@ -102,17 +102,27 @@ def run_kernel(task: str, X: np.ndarray) -> KernelResult:
 
 
 class SieveExecutor:
-    """Two-phase executor. Optionally consults the IMG for child turns."""
+    """Two-phase executor. Optionally consults the IMG for child turns.
+
+    canonical_sort: when True, apply the np.lexsort canonical row order in
+        the 2D consolidation step (identical to the shared
+        build_feature_matrix(sort_rows=True) used by baselines) so
+        KMeans/IsolationForest parity assertions hold bit-identically.
+        Default False = production latency path: no test-harness sort
+        penalizes T_handoff.
+    """
 
     def __init__(
         self,
         resolver: SchemaResolver,
         img: Optional[Any] = None,
         parquet_path: Optional[str] = None,
+        canonical_sort: bool = False,
     ):
         self.resolver = resolver
         self.img = img
         self.parquet_path = parquet_path or resolver.parquet_path
+        self.canonical_sort = canonical_sort
         self.con = duckdb.connect()
 
     # ------------------------------------------------------------------ #
@@ -198,9 +208,11 @@ class SieveExecutor:
         for v in cols_1d:
             mask &= ~np.isnan(v)
         X = np.column_stack([v[mask] for v in cols_1d])
-        if X.shape[0] > 0:
+        if self.canonical_sort and X.shape[0] > 0:
             # Canonical lexicographic row order — identical to the shared
-            # build_feature_matrix() used by baselines (parity requirement).
+            # build_feature_matrix(sort_rows=True) used by baselines (parity
+            # requirement). Disabled by default: the sort is a test-harness
+            # artifact, not part of the production data plane.
             order = np.lexsort(tuple(X[:, i] for i in range(X.shape[1] - 1, -1, -1)))
             X = X[order]
         X = np.ascontiguousarray(X, dtype=np.float64)

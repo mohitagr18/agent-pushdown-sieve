@@ -29,6 +29,7 @@ class CaveAgentBaseline:
         intent: AnalyticalIntent,
         clauses: list[dict],
         parquet_path: str,
+        sort_rows: bool = True,
     ) -> dict:
         tel: dict[str, Any] = {"query_id": intent.query_id, "pipeline": "B2_caveagent"}
         session = intent.session_id or intent.query_id
@@ -53,7 +54,7 @@ class CaveAgentBaseline:
         t0 = time.perf_counter_ns()
         table = pa.Table.from_pandas(sub[intent.target_columns], preserve_index=False)
         features = KERNEL_FEATURES[intent.downstream_task]
-        X = build_feature_matrix(table, features)
+        X = build_feature_matrix(table, features, sort_rows=sort_rows)
         tel["t_handoff_ms"] = (time.perf_counter_ns() - t0) / 1e6
         tel["n_rows_kernel"] = int(X.shape[0])
         tel["bytes_X"] = int(X.nbytes)

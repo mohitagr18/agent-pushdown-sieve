@@ -9,7 +9,7 @@ import mcp_server  # noqa: E402
 
 def test_inspect_catalog():
     out = mcp_server.inspect_parquet_catalog("trips_10k")
-    assert out["n_columns"] == 21
+    assert out["n_columns"] == 27  # 19 TLC + trip_duration_minutes + borough + 6 wide enterprise cols
     names = [c["name"] for c in out["columns"]]
     assert "trip_duration_minutes" in names and "borough" in names
     assert "Manhattan" in out["enum_samples"]["borough"]
