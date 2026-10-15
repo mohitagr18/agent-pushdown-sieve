@@ -89,8 +89,13 @@ def test_img_child_faster_than_base_rescan(resolver: SchemaResolver):
     ex_img.execute(t2)  # warm
     ex_base.execute(t2_base)  # warm
 
+    import statistics
+
     img_push, base_push, img_tool, base_tool = [], [], [], []
-    for _ in range(3):
+    for _ in range(2):  # extra warmups for timing stability
+        ex_img.execute(t2)
+        ex_base.execute(t2_base)
+    for _ in range(5):
         oi = ex_img.execute(t2)
         ob = ex_base.execute(t2_base)
         img_push.append(oi["telemetry"]["t_pushdown_ms"])
@@ -98,12 +103,14 @@ def test_img_child_faster_than_base_rescan(resolver: SchemaResolver):
         img_tool.append(oi["telemetry"]["t_tool_ms"])
         base_tool.append(ob["telemetry"]["t_tool_ms"])
 
-    pushdown_speedup = (sum(base_push) / 3) / max(sum(img_push) / 3, 1e-9)
+    pushdown_speedup = statistics.median(base_push) / max(statistics.median(img_push), 1e-9)
     assert pushdown_speedup >= 10.0, (
         f"IMG pushdown speedup {pushdown_speedup:.1f}x < 10x "
-        f"(img {sum(img_push)/3:.1f} ms vs base {sum(base_push)/3:.1f} ms)"
+        f"(img median {statistics.median(img_push):.1f} ms vs "
+        f"base median {statistics.median(base_push):.1f} ms)"
     )
-    assert sum(img_tool) / 3 < sum(base_tool) / 3, "IMG total T_tool must beat base rescan"
+    assert statistics.median(img_tool) < statistics.median(base_tool), \
+        "IMG total T_tool must beat base rescan"
     # Numerical parity between IMG path and base rescan path.
     d = max(abs(a - b) for a, b in zip(
         oi["result"].parity_vector, ob["result"].parity_vector))
