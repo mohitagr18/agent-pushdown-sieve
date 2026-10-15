@@ -1,0 +1,864 @@
+{
+  "dataset": "data/trips_1m.parquet",
+  "n_traces": 40,
+  "traces": [
+    {
+      "query_id": "single_01",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "fare_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 20.437930284104954
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.01
+    },
+    {
+      "query_id": "single_02",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "fare_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 69.9955606684455
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0535
+    },
+    {
+      "query_id": "single_03",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "fare_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "total_amount",
+          "op": ">",
+          "value": 33.462169188139725
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.2004
+    },
+    {
+      "query_id": "single_04",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "borough",
+        "fare_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Manhattan"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 9.176901346350142
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0843
+    },
+    {
+      "query_id": "single_05",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "borough",
+        "fare_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Queens"
+        },
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 20.986939284810706
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0461
+    },
+    {
+      "query_id": "single_06",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "total_amount",
+        "trip_distance",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates": [
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 20.437930284104954
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.01
+    },
+    {
+      "query_id": "single_07",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "fare_amount",
+        "total_amount",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 69.9955606684455
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0535
+    },
+    {
+      "query_id": "single_08",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "total_amount",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates": [
+        {
+          "column": "total_amount",
+          "op": ">",
+          "value": 33.462169188139725
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.2004
+    },
+    {
+      "query_id": "single_09",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "borough",
+        "total_amount",
+        "trip_distance",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Manhattan"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 9.176901346350142
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0843
+    },
+    {
+      "query_id": "single_10",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "borough",
+        "fare_amount",
+        "total_amount",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Queens"
+        },
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 20.986939284810706
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0461
+    },
+    {
+      "query_id": "single_11",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 20.437930284104954
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.01
+    },
+    {
+      "query_id": "single_12",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 69.9955606684455
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0535
+    },
+    {
+      "query_id": "single_13",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "total_amount",
+          "op": ">",
+          "value": 33.462169188139725
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.2004
+    },
+    {
+      "query_id": "single_14",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "borough",
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Manhattan"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 9.176901346350142
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0843
+    },
+    {
+      "query_id": "single_15",
+      "trace_type": "single_turn",
+      "target_columns": [
+        "borough",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Queens"
+        },
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 20.986939284810706
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "expected_selectivity": 0.0461
+    },
+    {
+      "query_id": "dirty_01",
+      "trace_type": "dirty",
+      "target_columns": [
+        "dist",
+        "fare",
+        "total_amount",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates_raw": "borough = 'Manhatten'",
+      "filter_predicates": [],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_02",
+      "trace_type": "dirty",
+      "target_columns": [
+        "duration",
+        "fare",
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates_raw": "borough = 'Quens'",
+      "filter_predicates": [],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_03",
+      "trace_type": "dirty",
+      "target_columns": [
+        "dist",
+        "fare_amount",
+        "tip",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates_raw": "borough = 'Brooklin'",
+      "filter_predicates": [],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_04",
+      "trace_type": "dirty",
+      "target_columns": [
+        "dist",
+        "duration",
+        "tip",
+        "total_amount",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates_raw": "borough = 'Bronks'",
+      "filter_predicates": [],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_05",
+      "trace_type": "dirty",
+      "target_columns": [
+        "duration",
+        "fare",
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates_raw": "borough = 'Staten Island'",
+      "filter_predicates": [],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_06",
+      "trace_type": "dirty",
+      "target_columns": [
+        "dist",
+        "fare_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates_raw": "borough = 'manhattan'",
+      "filter_predicates": [],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_07",
+      "trace_type": "dirty",
+      "target_columns": [
+        "fare",
+        "tip",
+        "total_amount",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates_raw": "borough = 'MANHATTAN'",
+      "filter_predicates": [],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_08",
+      "trace_type": "dirty",
+      "target_columns": [
+        "duration",
+        "tip_amount",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates_raw": "borough = 'Queens '",
+      "filter_predicates": [],
+      "downstream_task": "kmeans_clustering",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_09",
+      "trace_type": "dirty",
+      "target_columns": [
+        "dist",
+        "fare",
+        "fare_amount",
+        "tip",
+        "total_amount",
+        "trip_distance"
+      ],
+      "filter_predicates_raw": "borough = 'brooklyn'",
+      "filter_predicates": [],
+      "downstream_task": "isolation_forest",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "dirty_10",
+      "trace_type": "dirty",
+      "target_columns": [
+        "duration",
+        "tip",
+        "total_amount",
+        "trip_duration_minutes"
+      ],
+      "filter_predicates_raw": "borough = 'bronx'",
+      "filter_predicates": [],
+      "downstream_task": "linear_regression",
+      "session_id": null,
+      "parent_turn_id": null,
+      "note": "unresolved aliases + misspelled categorical; harness must run resolver first"
+    },
+    {
+      "query_id": "session_01_t1",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Manhattan"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 1.0
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": "session_01",
+      "parent_turn_id": null
+    },
+    {
+      "query_id": "session_01_t2",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 25.0
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": "session_01",
+      "parent_turn_id": "session_01_t1"
+    },
+    {
+      "query_id": "session_01_t3",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "tip_amount",
+          "op": ">",
+          "value": 0.0
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": "session_01",
+      "parent_turn_id": "session_01_t2"
+    },
+    {
+      "query_id": "session_02_t1",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Queens"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 1.5
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": "session_02",
+      "parent_turn_id": null
+    },
+    {
+      "query_id": "session_02_t2",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 30.0
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": "session_02",
+      "parent_turn_id": "session_02_t1"
+    },
+    {
+      "query_id": "session_02_t3",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "tip_amount",
+          "op": ">",
+          "value": 0.0
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": "session_02",
+      "parent_turn_id": "session_02_t2"
+    },
+    {
+      "query_id": "session_03_t1",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Brooklyn"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 1.0
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": "session_03",
+      "parent_turn_id": null
+    },
+    {
+      "query_id": "session_03_t2",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 20.0
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": "session_03",
+      "parent_turn_id": "session_03_t1"
+    },
+    {
+      "query_id": "session_03_t3",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "tip_amount",
+          "op": ">",
+          "value": 0.0
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": "session_03",
+      "parent_turn_id": "session_03_t2"
+    },
+    {
+      "query_id": "session_04_t1",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Manhattan"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 2.0
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": "session_04",
+      "parent_turn_id": null
+    },
+    {
+      "query_id": "session_04_t2",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 35.0
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": "session_04",
+      "parent_turn_id": "session_04_t1"
+    },
+    {
+      "query_id": "session_04_t3",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "tip_amount",
+          "op": ">",
+          "value": 0.0
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": "session_04",
+      "parent_turn_id": "session_04_t2"
+    },
+    {
+      "query_id": "session_05_t1",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "borough",
+          "op": "=",
+          "value": "Queens"
+        },
+        {
+          "column": "trip_distance",
+          "op": ">",
+          "value": 1.0
+        }
+      ],
+      "downstream_task": "linear_regression",
+      "session_id": "session_05",
+      "parent_turn_id": null
+    },
+    {
+      "query_id": "session_05_t2",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "fare_amount",
+          "op": ">",
+          "value": 25.0
+        }
+      ],
+      "downstream_task": "isolation_forest",
+      "session_id": "session_05",
+      "parent_turn_id": "session_05_t1"
+    },
+    {
+      "query_id": "session_05_t3",
+      "trace_type": "multiturn",
+      "target_columns": [
+        "trip_distance",
+        "trip_duration_minutes",
+        "fare_amount",
+        "tip_amount",
+        "total_amount",
+        "borough"
+      ],
+      "filter_predicates": [
+        {
+          "column": "tip_amount",
+          "op": ">",
+          "value": 0.0
+        }
+      ],
+      "downstream_task": "kmeans_clustering",
+      "session_id": "session_05",
+      "parent_turn_id": "session_05_t2"
+    }
+  ]
+}

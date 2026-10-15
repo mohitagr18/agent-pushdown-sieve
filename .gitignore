@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+data/_raw_*.parquet
+results/_bench_run.log

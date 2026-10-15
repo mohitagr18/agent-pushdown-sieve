@@ -1,0 +1,28 @@
+[project]
+name = "agent-pushdown-sieve"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "datasets>=2.20.0",
+    "duckdb>=1.1.0",
+    "fastmcp>=0.4.0",
+    "numpy>=1.26.0",
+    "pandas>=2.2.0",
+    "polars>=1.6.0",
+    "psutil>=6.0.0",
+    "pyarrow>=17.0.0",
+    "pydantic>=2.8.0",
+    "pytest>=8.3.0",
+    "rapidfuzz>=3.9.0",
+    "scikit-learn>=1.5.0",
+    "scipy>=1.13.0",
+    "tabulate>=0.10.0",
+]
+
+[project.scripts]
+agent-pushdown-sieve = "agent_pushdown_sieve:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"

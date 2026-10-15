@@ -1,0 +1,706 @@
+{
+  "source": "xlangai/spider:validation",
+  "n": 100,
+  "queries": [
+    {
+      "idx": 0,
+      "question": "How many singers do we have?",
+      "sql": "SELECT count(*) FROM singer",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 1,
+      "question": "What is the total number of singers?",
+      "sql": "SELECT count(*) FROM singer",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 2,
+      "question": "Show name, country, age for all singers ordered by age from the oldest to the youngest.",
+      "sql": "SELECT name ,  country ,  age FROM singer ORDER BY age DESC",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 3,
+      "question": "What are the names, countries, and ages for every singer in descending order of age?",
+      "sql": "SELECT name ,  country ,  age FROM singer ORDER BY age DESC",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 4,
+      "question": "What is the average, minimum, and maximum age of all singers from France?",
+      "sql": "SELECT avg(age) ,  min(age) ,  max(age) FROM singer WHERE country  =  'France'",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 5,
+      "question": "What is the average, minimum, and maximum age for all French singers?",
+      "sql": "SELECT avg(age) ,  min(age) ,  max(age) FROM singer WHERE country  =  'France'",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 6,
+      "question": "Show the name and the release year of the song by the youngest singer.",
+      "sql": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 7,
+      "question": "What are the names and release years for all the songs of the youngest singer?",
+      "sql": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 8,
+      "question": "What are all distinct countries where singers above age 20 are from?",
+      "sql": "SELECT DISTINCT country FROM singer WHERE age  >  20",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 9,
+      "question": "What are  the different countries with singers above age 20?",
+      "sql": "SELECT DISTINCT country FROM singer WHERE age  >  20",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 10,
+      "question": "Show all countries and the number of singers in each country.",
+      "sql": "SELECT country ,  count(*) FROM singer GROUP BY country",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 11,
+      "question": "How many singers are from each country?",
+      "sql": "SELECT country ,  count(*) FROM singer GROUP BY country",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 12,
+      "question": "List all song names by singers above the average age.",
+      "sql": "SELECT song_name FROM singer WHERE age  >  (SELECT avg(age) FROM singer)",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 13,
+      "question": "What are all the song names by singers who are older than average?",
+      "sql": "SELECT song_name FROM singer WHERE age  >  (SELECT avg(age) FROM singer)",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 14,
+      "question": "Show location and name for all stadiums with a capacity between 5000 and 10000.",
+      "sql": "SELECT LOCATION ,  name FROM stadium WHERE capacity BETWEEN 5000 AND 10000",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 15,
+      "question": "What are the locations and names of all stations with capacity between 5000 and 10000?",
+      "sql": "SELECT LOCATION ,  name FROM stadium WHERE capacity BETWEEN 5000 AND 10000",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 16,
+      "question": "What is the maximum capacity and the average of all stadiums ?",
+      "sql": "select max(capacity), average from stadium",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 17,
+      "question": "What is the average and maximum capacities for all stadiums ?",
+      "sql": "select avg(capacity) ,  max(capacity) from stadium",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 18,
+      "question": "What is the name and capacity for the stadium with highest average attendance?",
+      "sql": "SELECT name ,  capacity FROM stadium ORDER BY average DESC LIMIT 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 19,
+      "question": "What is the name and capacity for the stadium with the highest average attendance?",
+      "sql": "SELECT name ,  capacity FROM stadium ORDER BY average DESC LIMIT 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 20,
+      "question": "How many concerts are there in year 2014 or 2015?",
+      "sql": "SELECT count(*) FROM concert WHERE YEAR  =  2014 OR YEAR  =  2015",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 21,
+      "question": "How many concerts occurred in 2014 or 2015?",
+      "sql": "SELECT count(*) FROM concert WHERE YEAR  =  2014 OR YEAR  =  2015",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 22,
+      "question": "Show the stadium name and the number of concerts in each stadium.",
+      "sql": "SELECT T2.name ,  count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id GROUP BY T1.stadium_id",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 23,
+      "question": "For each stadium, how many concerts play there?",
+      "sql": "SELECT T2.name ,  count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id GROUP BY T1.stadium_id",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 24,
+      "question": "Show the stadium name and capacity with most number of concerts in year 2014 or after.",
+      "sql": "SELECT T2.name ,  T2.capacity FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  >=  2014 GROUP BY T2.stadium_id ORDER BY count(*) DESC LIMIT 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 25,
+      "question": "What is the name and capacity of the stadium with the most concerts after 2013 ?",
+      "sql": "select t2.name ,  t2.capacity from concert as t1 join stadium as t2 on t1.stadium_id  =  t2.stadium_id where t1.year  >  2013 group by t2.stadium_id order by count(*) desc limit 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 26,
+      "question": "Which year has most number of concerts?",
+      "sql": "SELECT YEAR FROM concert GROUP BY YEAR ORDER BY count(*) DESC LIMIT 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 27,
+      "question": "What is the year that had the most concerts?",
+      "sql": "SELECT YEAR FROM concert GROUP BY YEAR ORDER BY count(*) DESC LIMIT 1",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 28,
+      "question": "Show the stadium names without any concert.",
+      "sql": "SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 29,
+      "question": "What are the names of the stadiums without any concerts?",
+      "sql": "SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 30,
+      "question": "Show countries where a singer above age 40 and a singer below 30 are from.",
+      "sql": "SELECT country FROM singer WHERE age  >  40 INTERSECT SELECT country FROM singer WHERE age  <  30",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 31,
+      "question": "Show names for all stadiums except for stadiums having a concert in year 2014.",
+      "sql": "SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 32,
+      "question": "What are the names of all stadiums that did not have a concert in 2014?",
+      "sql": "SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 33,
+      "question": "Show the name and theme for all concerts and the number of singers in each concert.",
+      "sql": "SELECT T2.concert_name ,  T2.theme ,  count(*) FROM singer_in_concert AS T1 JOIN concert AS T2 ON T1.concert_id  =  T2.concert_id GROUP BY T2.concert_id",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 34,
+      "question": "What are the names , themes , and number of singers for every concert ?",
+      "sql": "select t2.concert_name ,  t2.theme ,  count(*) from singer_in_concert as t1 join concert as t2 on t1.concert_id  =  t2.concert_id group by t2.concert_id",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 35,
+      "question": "List singer names and number of concerts for each singer.",
+      "sql": "SELECT T2.name ,  count(*) FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id GROUP BY T2.singer_id",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 36,
+      "question": "What are the names of the singers and number of concerts for each person?",
+      "sql": "SELECT T2.name ,  count(*) FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id GROUP BY T2.singer_id",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 37,
+      "question": "List all singer names in concerts in year 2014.",
+      "sql": "SELECT T2.name FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id JOIN concert AS T3 ON T1.concert_id  =  T3.concert_id WHERE T3.year  =  2014",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 38,
+      "question": "What are the names of the singers who performed in a concert in 2014?",
+      "sql": "SELECT T2.name FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id JOIN concert AS T3 ON T1.concert_id  =  T3.concert_id WHERE T3.year  =  2014",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 39,
+      "question": "what is the name and nation of the singer who have a song having 'Hey' in its name?",
+      "sql": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 40,
+      "question": "What is the name and country of origin of every singer who has a song with the word 'Hey' in its title?",
+      "sql": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 41,
+      "question": "Find the name and location of the stadiums which some concerts happened in the years of both 2014 and 2015.",
+      "sql": "SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2014 INTERSECT SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2015",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 42,
+      "question": "What are the names and locations of the stadiums that had concerts that occurred in both 2014 and 2015?",
+      "sql": "SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2014 INTERSECT SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2015",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 43,
+      "question": "Find the number of concerts happened in the stadium with the highest capacity .",
+      "sql": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 44,
+      "question": "What are the number of concerts that occurred in the stadium with the largest capacity ?",
+      "sql": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)",
+      "db_id": "concert_singer",
+      "difficulty": ""
+    },
+    {
+      "idx": 45,
+      "question": "Find the number of pets whose weight is heavier than 10.",
+      "sql": "SELECT count(*) FROM pets WHERE weight  >  10",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 46,
+      "question": "How many pets have a greater weight than 10?",
+      "sql": "SELECT count(*) FROM pets WHERE weight  >  10",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 47,
+      "question": "Find the weight of the youngest dog.",
+      "sql": "SELECT weight FROM pets ORDER BY pet_age LIMIT 1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 48,
+      "question": "How much does the youngest dog weigh?",
+      "sql": "SELECT weight FROM pets ORDER BY pet_age LIMIT 1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 49,
+      "question": "Find the maximum weight for each type of pet. List the maximum weight and pet type.",
+      "sql": "SELECT max(weight) ,  petType FROM pets GROUP BY petType",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 50,
+      "question": "List the maximum weight and type for each type of pet.",
+      "sql": "SELECT max(weight) ,  petType FROM pets GROUP BY petType",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 51,
+      "question": "Find number of pets owned by students who are older than 20.",
+      "sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 52,
+      "question": "How many pets are owned by students that have an age greater than 20?",
+      "sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 53,
+      "question": "Find the number of dog pets that are raised by female students (with sex F).",
+      "sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T2.petid  =  T3.petid WHERE T1.sex  =  'F' AND T3.pettype  =  'dog'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 54,
+      "question": "How many dog pets are raised by female students?",
+      "sql": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T2.petid  =  T3.petid WHERE T1.sex  =  'F' AND T3.pettype  =  'dog'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 55,
+      "question": "Find the number of distinct type of pets.",
+      "sql": "SELECT count(DISTINCT pettype) FROM pets",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 56,
+      "question": "How many different types of pet are there?",
+      "sql": "SELECT count(DISTINCT pettype) FROM pets",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 57,
+      "question": "Find the first name of students who have cat or dog pet.",
+      "sql": "SELECT DISTINCT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' OR T3.pettype  =  'dog'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 58,
+      "question": "What are the first names of every student who has a cat or dog as a pet?",
+      "sql": "SELECT DISTINCT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' OR T3.pettype  =  'dog'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 59,
+      "question": "Find the first name of students who have both cat and dog pets .",
+      "sql": "select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'cat' intersect select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'dog'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 60,
+      "question": "What are the students' first names who have both cats and dogs as pets?",
+      "sql": "SELECT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' INTERSECT SELECT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 61,
+      "question": "Find the major and age of students who do not have a cat pet.",
+      "sql": "SELECT major ,  age FROM student WHERE stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 62,
+      "question": "What major is every student who does not own a cat as a pet, and also how old are they?",
+      "sql": "SELECT major ,  age FROM student WHERE stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 63,
+      "question": "Find the id of students who do not have a cat pet.",
+      "sql": "SELECT stuid FROM student EXCEPT SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 64,
+      "question": "What are the ids of the students who do not own cats as pets?",
+      "sql": "SELECT stuid FROM student EXCEPT SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 65,
+      "question": "Find the first name and age of students who have a dog but do not have a cat as a pet.",
+      "sql": "SELECT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog' AND T1.stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 66,
+      "question": "What is the first name of every student who has a dog but does not have a cat?",
+      "sql": "SELECT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog' AND T1.stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 67,
+      "question": "Find the type and weight of the youngest pet.",
+      "sql": "SELECT pettype ,  weight FROM pets ORDER BY pet_age LIMIT 1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 68,
+      "question": "What type of pet is the youngest animal, and how much does it weigh?",
+      "sql": "SELECT pettype ,  weight FROM pets ORDER BY pet_age LIMIT 1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 69,
+      "question": "Find the id and weight of all pets whose age is older than 1.",
+      "sql": "SELECT petid ,  weight FROM pets WHERE pet_age  >  1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 70,
+      "question": "What is the id and weight of every pet who is older than 1?",
+      "sql": "SELECT petid ,  weight FROM pets WHERE pet_age  >  1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 71,
+      "question": "Find the average and maximum age for each type of pet.",
+      "sql": "SELECT avg(pet_age) ,  max(pet_age) ,  pettype FROM pets GROUP BY pettype",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 72,
+      "question": "What is the average and maximum age for each pet type?",
+      "sql": "SELECT avg(pet_age) ,  max(pet_age) ,  pettype FROM pets GROUP BY pettype",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 73,
+      "question": "Find the average weight for each pet type.",
+      "sql": "SELECT avg(weight) ,  pettype FROM pets GROUP BY pettype",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 74,
+      "question": "What is the average weight for each type of pet?",
+      "sql": "SELECT avg(weight) ,  pettype FROM pets GROUP BY pettype",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 75,
+      "question": "Find the first name and age of students who have a pet.",
+      "sql": "SELECT DISTINCT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 76,
+      "question": "What are the different first names and ages of the students who do have pets?",
+      "sql": "SELECT DISTINCT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 77,
+      "question": "Find the id of the pet owned by student whose last name is \u2018Smith\u2019.",
+      "sql": "SELECT T2.petid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.Lname  =  'Smith'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 78,
+      "question": "What is the id of the pet owned by the student whose last name is 'Smith'?",
+      "sql": "SELECT T2.petid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.Lname  =  'Smith'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 79,
+      "question": "Find the number of pets for each student who has any pet and student id.",
+      "sql": "SELECT count(*) ,  T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid GROUP BY T1.stuid",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 80,
+      "question": "For students who have pets , how many pets does each student have ? list their ids instead of names .",
+      "sql": "select count(*) ,  t1.stuid from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid group by t1.stuid",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 81,
+      "question": "Find the first name and gender of student who have more than one pet.",
+      "sql": "SELECT T1.fname ,  T1.sex FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid GROUP BY T1.stuid HAVING count(*)  >  1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 82,
+      "question": "What is the first name and gender of the all the students who have more than one pet?",
+      "sql": "SELECT T1.fname ,  T1.sex FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid GROUP BY T1.stuid HAVING count(*)  >  1",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 83,
+      "question": "Find the last name of the student who has a cat that is age 3.",
+      "sql": "SELECT T1.lname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pet_age  =  3 AND T3.pettype  =  'cat'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 84,
+      "question": "What is the last name of the student who has a cat that is 3 years old?",
+      "sql": "SELECT T1.lname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pet_age  =  3 AND T3.pettype  =  'cat'",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 85,
+      "question": "Find the average age of students who do not have any pet .",
+      "sql": "select avg(age) from student where stuid not in (select stuid from has_pet)",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 86,
+      "question": "What is the average age for all students who do not own any pets ?",
+      "sql": "select avg(age) from student where stuid not in (select stuid from has_pet)",
+      "db_id": "pets_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 87,
+      "question": "How many continents are there?",
+      "sql": "SELECT count(*) FROM CONTINENTS;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 88,
+      "question": "What is the number of continents?",
+      "sql": "SELECT count(*) FROM CONTINENTS;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 89,
+      "question": "How many countries does each continent have? List the continent id, continent name and the number of countries.",
+      "sql": "SELECT T1.ContId ,  T1.Continent ,  count(*) FROM CONTINENTS AS T1 JOIN COUNTRIES AS T2 ON T1.ContId  =  T2.Continent GROUP BY T1.ContId;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 90,
+      "question": "For each continent, list its id, name, and how many countries it has?",
+      "sql": "SELECT T1.ContId ,  T1.Continent ,  count(*) FROM CONTINENTS AS T1 JOIN COUNTRIES AS T2 ON T1.ContId  =  T2.Continent GROUP BY T1.ContId;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 91,
+      "question": "How many countries are listed?",
+      "sql": "SELECT count(*) FROM COUNTRIES;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 92,
+      "question": "How many countries exist?",
+      "sql": "SELECT count(*) FROM COUNTRIES;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 93,
+      "question": "How many models does each car maker produce? List maker full name, id and the number.",
+      "sql": "SELECT T1.FullName ,  T1.Id ,  count(*) FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 94,
+      "question": "What is the full name of each car maker, along with its id and how many models it produces?",
+      "sql": "SELECT T1.FullName ,  T1.Id ,  count(*) FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 95,
+      "question": "Which model of the car has the minimum horsepower?",
+      "sql": "SELECT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id ORDER BY T2.horsepower ASC LIMIT 1;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 96,
+      "question": "What is the model of the car with the smallest amount of horsepower?",
+      "sql": "SELECT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id ORDER BY T2.horsepower ASC LIMIT 1;",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 97,
+      "question": "Find the model of the car whose weight is below the average weight.",
+      "sql": "SELECT T1.model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.Weight  <  (SELECT avg(Weight) FROM CARS_DATA)",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 98,
+      "question": "What is the model for the car with a weight smaller than the average?",
+      "sql": "SELECT T1.model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.Weight  <  (SELECT avg(Weight) FROM CARS_DATA)",
+      "db_id": "car_1",
+      "difficulty": ""
+    },
+    {
+      "idx": 99,
+      "question": "Find the name of the makers that produced some cars in the year of 1970?",
+      "sql": "SELECT DISTINCT T1.Maker FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker JOIN CAR_NAMES AS T3 ON T2.model  =  T3.model JOIN CARS_DATA AS T4 ON T3.MakeId  =  T4.id WHERE T4.year  =  '1970';",
+      "db_id": "car_1",
+      "difficulty": ""
+    }
+  ]
+}
